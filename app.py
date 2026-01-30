@@ -36,8 +36,9 @@ retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k":
 
 # Chat model
 chat = ChatOpenAI(
-    model_name="qwen/qwen3-next-80b-a3b-instruct:free",
-    openai_api_base="https://openrouter.ai/api/v1", 
+    model_name= "openai/gpt-4o-mini",
+    openai_api_base= "https://openrouter.ai/api/v1",
+    api_key= OPENROUTER_API_KEY
 )
 
 # Prompt
@@ -49,11 +50,6 @@ prompt = ChatPromptTemplate.from_messages([
 # RAG chain
 question_answer_chain = create_stuff_documents_chain(chat, prompt)
 rag_chain = create_retrieval_chain(retriever, question_answer_chain)
-
-# Test the chat model
-msg = [HumanMessage(content="Say hi")]
-resp = chat(msg)
-print("Test response:", resp.content)
 
 # Flask app
 app = Flask(__name__)
